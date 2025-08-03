@@ -1,1 +1,9 @@
-style.css
+import { useState } from "react"; import { Card, CardContent } from "@/components/ui/card"; import { Input } from "@/components/ui/input"; import { Button } from "@/components/ui/button";
+
+export default function RankPushTracker() { const [matches, setMatches] = useState([]); const [rank, setRank] = useState(1); const [kills, setKills] = useState(0); const [pointsEarned, setPointsEarned] = useState(0); const [totalPoints, setTotalPoints] = useState(3005); // starting point
+
+const addMatch = () => { const newTotal = totalPoints + parseInt(pointsEarned); const newMatch = { matchNumber: matches.length + 1, rank, kills, pointsEarned, totalPoints: newTotal, }; setMatches([...matches, newMatch]); setTotalPoints(newTotal); setRank(1); setKills(0); setPointsEarned(0); };
+
+return ( <div className="p-4 space-y-4"> <h1 className="text-xl font-bold">Conqueror Rank Push Tracker</h1> <div className="grid grid-cols-2 gap-2"> <Input type="number" placeholder="Rank (1-25)" value={rank} onChange={(e) => setRank(parseInt(e.target.value))} /> <Input type="number" placeholder="Kills" value={kills} onChange={(e) => setKills(parseInt(e.target.value))} /> <Input type="number" placeholder="Points Earned" value={pointsEarned} onChange={(e) => setPointsEarned(parseInt(e.target.value))} /> <Button onClick={addMatch}>Add Match</Button> </div> <p className="text-sm text-gray-500">Total Points: {totalPoints}</p> <div className="space-y-2"> {matches.map((match, index) => ( <Card key={index}> <CardContent className="p-2 text-sm"> Match {match.matchNumber}: Rank {match.rank}, Kills {match.kills}, +{match.pointsEarned} → Total: {match.totalPoints} </CardContent> </Card> ))} </div> </div> ); }
+
+
